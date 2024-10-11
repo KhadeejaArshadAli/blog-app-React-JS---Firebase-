@@ -252,6 +252,20 @@ textarea {
   cursor: pointer;
 }
 
+.viewposts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.viewposts button{
+  border: none;
+
+  background: none;
+  font-size: 30px;
+  cursor: pointer;
+
+}
+
 .post .postTextContainer {
   word-wrap: break-word;
   height: auto;
