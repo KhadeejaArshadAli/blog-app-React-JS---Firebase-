@@ -57,7 +57,7 @@ function Login({setIsAuth}) {
         </div>
         <p>Create an account <Link to="/register">Register now</Link></p>
         <button className='mainbutton' onClick={submit}>Log in</button>
-        <button className='login-with-google-btn'onClick={signInWithGoogle}>Sign in with Google</button>
+        <button className='login-with-google-btn'onClick={signInWithGoogle}>Log in with Google</button>
 
       </div>
     </div>

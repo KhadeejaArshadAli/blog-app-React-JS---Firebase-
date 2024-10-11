@@ -52,6 +52,7 @@ a {
   font-size: 20px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  
 }
 .main_container .box {
   width: 100%;
@@ -95,6 +96,7 @@ a {
   display: grid;
   place-items: center;
 }
+
 
 .cpContainer {
   width: 500px;
