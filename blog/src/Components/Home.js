@@ -37,7 +37,7 @@ function Home() {
           <div className='post' key={post.id}>
             <div className='postHeader'>
               <div className='title'>
-                <h1>{post.title}</h1> {/* Only the title is displayed */}
+                <h1>{post.title}</h1> 
               </div>
               <div className='viewposts'>
               <button onClick={() => openModal(post)}> &#128065;</button>
