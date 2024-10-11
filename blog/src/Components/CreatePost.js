@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {addDoc, collection,serverTimestamp} from 'firebase/firestore';
+import {addDoc, collection,serverTimestamp,} from 'firebase/firestore';
 import { db,auth } from '../firebase-config';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
@@ -14,26 +14,73 @@ import { useNavigate } from 'react-router-dom';
  
   const postCollectionRef = collection(db, "Posts")
 
-    const createPost =async ()=>{
-      const postId = uuidv4();
- 
+//     const createPost =async ()=>{
+//         let username = "Anonymous"; // Fallback value in case name is not available
+  
+//         // Check if user is authenticated via popup (Google, etc.)
+//         if (auth.currentUser?.displayName) {
+//           username = auth.currentUser.displayName; // For popup sign-in, displayName exists
+//         } else {
+//           // If the user registered with email/password, fetch their username from Firestore
+//           const userDocRef = doc(db, "Users", auth.currentUser.uid);
+//           const userDocSnap = await getDoc(userDocRef);
+//           if (userDocSnap.exists()) {
+//             username = userDocSnap.data().name || "Anonymous"; // Get the name from Firestore, with fallback to "Anonymous"
+//           } else {
+//             console.log("No such user document found!");
+//           }
+//         }
+//       const postId = uuidv4();
+//      await addDoc(postCollectionRef, {
+//       postId,
+//       title,
+//       posttext, 
+//       author: {
+//         name: username,
+//        id: auth.currentUser.uid 
+//       },
+//       createdAt: serverTimestamp(),
+//       updatedAt: serverTimestamp()
+//     });
+//     navigate("/")
+
+    
+//   };
+const createPost = async () => {
+    const postId = uuidv4();
+    // let username = "Anonymous";  // Default value
+  
+    // // Check if user is authenticated via popup (Google, etc.)
+    // if (auth.currentUser.displayName) {
+    //   username = auth.currentUser.displayName; // Use displayName for Google sign-in
+    // } else {
+    //   // If the user registered with email/password, fetch their username from Firestore
+    //   const userDocRef = doc(db, "Users", auth.currentUser.uid);
+    //   const userDocSnap = await getDoc(userDocRef);
+  
+    //   if (userDocSnap.exists()) {
+    //     username = userDocSnap.data().name || "Anonymous"; // Get the name from Firestore, fallback to "Anonymous"
+    //   } else {
+    //     console.log("No such user document found!");
+    //   }
+    // }
   
     // Now create the post with the correct username
-     await addDoc(postCollectionRef, {
-      postId, // Post ID will be auto-generated or managed
-      title, // Title of the post (should be defined in your state)
-      posttext, // Post text content (should be defined in your state)
+    await addDoc(postCollectionRef, {
+      postId,
+      title,
+      posttext,
       author: {
-        name: auth.currentUser.displayName,
-       id: auth.currentUser.uid // User's UID
+        // name: username,  // Store the username (displayName or custom)
+        id: auth.currentUser.uid  // Store the user ID
       },
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()
     });
-    navigate("/")
-
-    
+  
+    navigate("/");
   };
+  
 
   useEffect(() =>{
     if(!isAuth){
