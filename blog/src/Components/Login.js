@@ -7,8 +7,8 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 
 function Login({ setIsAuth }) {
 
-  const [email, setEmail] = useState("habib123@gmail.com");
-  const [password, setPassword] = useState("12345678910");
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
   let navigate = useNavigate();
 
 
