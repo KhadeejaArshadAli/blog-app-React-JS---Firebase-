@@ -6,15 +6,15 @@ import { collection, doc, query, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 
-Modal.setAppElement('#root'); // Required for accessibility
+Modal.setAppElement('#root');
 
 function Profile() {
   const [postList, setPostList] = useState([]);
   const [editingPostId, setEditingPostId] = useState(null);
   const [newTitle, setNewTitle] = useState('');
   const [newText, setNewText] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
-  const [selectedPost, setSelectedPost] = useState(null); // Selected post for viewing
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [selectedPost, setSelectedPost] = useState(null); 
   let navigate = useNavigate();
   const postCollectionRef = collection(db, "Posts");
 
@@ -31,27 +31,26 @@ function Profile() {
     navigate('/createpost');
   };
 
-  // Function to delete a post
+
   const deletePost = async (id) => {
     const postDocRef = doc(db, "Posts", id);
     await deleteDoc(postDocRef);
-    setPostList(postList.filter(post => post.id !== id)); // Update state after deletion
+    setPostList(postList.filter(post => post.id !== id));
   };
 
-  // Function to enable editing mode for a post
   const enableEditing = (post) => {
     setEditingPostId(post.id);
     setNewTitle(post.title);
     setNewText(post.posttext);
   };
 
-  // Function to update a post
+
   const updatePost = async (id) => {
     const postDocRef = doc(db, "Posts", id);
     await updateDoc(postDocRef, {
       title: newTitle,
       posttext: newText,
-      updatedAt: new Date()  // Update the timestamp for the update
+      updatedAt: new Date()  
     });
 
     setPostList(
@@ -65,7 +64,6 @@ function Profile() {
     setNewText('');
   };
 
-  // Open modal to view the post details
   const openModal = (post) => {
     setSelectedPost(post);
     setIsModalOpen(true);
@@ -73,7 +71,7 @@ function Profile() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedPost(null); // Reset selected post on modal close
+    setSelectedPost(null); 
   };
 
   return (
@@ -107,13 +105,13 @@ function Profile() {
               ) : (
                 <>
                   <div className='title'>
-                    <h1>{post.title}</h1> {/* Only showing title here */}
+                    <h1>{post.title}</h1> 
                   </div>
                   <div className='deletePost'>
                     <button className='delete' onClick={() => deletePost(post.id)}>&#128465;</button>
                     <button onClick={() => enableEditing(post)}>&#128394;</button>
                     <button onClick={() => openModal(post)}>	
-                    &#128065;</button> {/* View button to open modal */}
+                    &#128065;</button>
                   </div>
                 </>
               )}
@@ -124,13 +122,14 @@ function Profile() {
 
       <button className='addpost' onClick={handleButtonClick}>&#10133;</button>
 
-      {/* Modal for viewing post details */}
+    
       <Modal className="main_container" isOpen={isModalOpen} onRequestClose={closeModal} contentLabel="Post Details">
         {selectedPost && (
           <div className='header'>
-            <h1>{selectedPost.title}</h1> {/* Show title */}
-            <p>{selectedPost.posttext}</p> {/* Show post text */}
-            <p>Created on: {new Date(selectedPost.createdAt.seconds * 1000).toLocaleDateString()}</p> {/* Show creation date */}
+            <h1>{selectedPost.title}</h1>
+            <p>{selectedPost.posttext}</p> 
+            <p>Created on: {new Date(selectedPost.createdAt.seconds * 1000).toLocaleDateString()}</p>
+            <p> Created by : {selectedPost?.author?.name}</p>
             <button onClick={closeModal}>Back</button>
           </div>
         )}

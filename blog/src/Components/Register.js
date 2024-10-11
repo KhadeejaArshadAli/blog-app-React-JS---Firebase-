@@ -15,19 +15,18 @@ function Register() {
     e.preventDefault();
 
     try {
-      // Create a new user
+    
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       const userCollectionRef= collection(db,"Users")
      
-     
-      // Store the user's data in Firestore, including the name
+  
       await addDoc(userCollectionRef, {
         uid: user.uid,
-        name: name,  // The name entered during registration
+        name: name, 
         email: email,
-        createdAt: serverTimestamp(), // Server-generated timestamp for the creation
-        updatedAt: serverTimestamp()   // Or use serverTimestamp() from Firestore for server-side timestamps
+        createdAt: serverTimestamp(), 
+        updatedAt: serverTimestamp()   
       })
 
       alert("Account Created and User Data Stored");

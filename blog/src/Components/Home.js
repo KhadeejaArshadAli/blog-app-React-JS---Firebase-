@@ -4,12 +4,12 @@ import { db } from '../firebase-config';
 import { collection } from 'firebase/firestore';
 import Modal from 'react-modal';
 
-Modal.setAppElement('#root'); // Required for accessibility
+Modal.setAppElement('#root'); 
 
 function Home() {
   const [postList, setPostList] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
-  const [selectedPost, setSelectedPost] = useState(null); // To store the clicked post
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [selectedPost, setSelectedPost] = useState(null);
   const postCollectionRef = collection(db, 'Posts');
 
   useEffect(() => {
@@ -18,7 +18,7 @@ function Home() {
       setPostList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
     getPosts();
-  }, [postCollectionRef]); // Empty array to prevent unnecessary re-renders
+  }, [postCollectionRef]); 
 
   const openModal = (post) => {
     setSelectedPost(post);
@@ -27,7 +27,7 @@ function Home() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedPost(null); // Clear the selected post when closing modal
+    setSelectedPost(null);
   };
 
   return (
@@ -47,13 +47,14 @@ function Home() {
         );
       })}
 
-      {/* Modal for post details */}
+  
       <Modal className="main_container" isOpen={isModalOpen} onRequestClose={closeModal} contentLabel="Post Details">
         {selectedPost && (
           <div className='header'>
-            <h2>{selectedPost.title}</h2> {/* Display title */}
-            <p>{selectedPost.posttext}</p> {/* Display post text */}
-            <p>Created on: {new Date(selectedPost.createdAt.seconds * 1000).toLocaleDateString()}</p> {/* Display creation date */}
+            <h2>{selectedPost.title}</h2> 
+            <p>{selectedPost.posttext}</p>
+            <p>Created on: {new Date(selectedPost.createdAt.seconds * 1000).toLocaleDateString()}</p>
+            <p> Created by : {selectedPost?.author?.name}</p>
             <button onClick={closeModal}>Close</button>
           </div>
         )}
