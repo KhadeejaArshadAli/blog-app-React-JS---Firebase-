@@ -71,6 +71,22 @@ a {
   margin-left: 30px;
   font-weight: 600;
 }
+.main_container .content p{
+  margin-top: 15px;
+  font-size: 20px;
+  color: white;
+  margin-left: 30px;
+
+
+}
+.main_container .other p{
+  margin-top: 15px;
+  font-size: 15px;
+  color: white;
+  margin-left: 30px;
+ font-style: italic;
+
+}
 .main_container button {
   margin-top: 10px;
   margin-left: 45%;

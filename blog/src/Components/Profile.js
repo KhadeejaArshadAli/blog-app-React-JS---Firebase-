@@ -127,9 +127,13 @@ function Profile() {
         {selectedPost && (
           <div className='header'>
             <h1>{selectedPost.title}</h1>
-            <p>{selectedPost.posttext}</p> 
+            <div className='content'>
+            <p>{selectedPost.posttext}</p>
+            <div className='other'>
             <p>Created on: {new Date(selectedPost.createdAt.seconds * 1000).toLocaleDateString()}</p>
             <p> Created by : {selectedPost?.author?.name}</p>
+            </div>
+            </div>
             <button onClick={closeModal}>Back</button>
           </div>
         )}
