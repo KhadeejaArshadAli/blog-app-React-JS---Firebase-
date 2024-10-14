@@ -39,20 +39,26 @@ function Home() {
               <div className='title'>
                 <h1>{post.title}</h1> 
               </div>
-              <div className='viewposts'>
+            
+              {/* <div className='viewposts'>
               <button onClick={() => openModal(post)}> &#128065;</button>
-              </div>
+              </div> */}
             </div>
+            <div className='postTextContainer'>
+                {post.posttext}
+                </div>
+              <h3>@{post.author.name}</h3>
           </div>
         );
       })}
 
   
-      <Modal className="main_container" isOpen={isModalOpen} onRequestClose={closeModal} contentLabel="Post Details">
+      <Modal className="postTextContainer" isOpen={isModalOpen} onRequestClose={closeModal} contentLabel="Post Details">
+    
         {selectedPost && (
-          <div className='header'>
+          <div className='article-title'>
             <h2>{selectedPost.title}</h2> 
-            <div className='content'>
+            <div className='article clearfix'>
             <p>{selectedPost.posttext}</p>
             <div className='other'>
             <p>Created on: {new Date(selectedPost.createdAt.seconds * 1000).toLocaleDateString()}</p>
