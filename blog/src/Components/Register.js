@@ -1,66 +1,167 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth,db } from '../firebase-config';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+// import React, { useState } from 'react'
+// import { Link } from 'react-router-dom';
+// import { createUserWithEmailAndPassword } from 'firebase/auth';
+// import { auth,db } from '../firebase-config';
+// import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
-function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+// function Register() {
+//   const [name, setName] = useState("");
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
 
 
-  const submit = async (e) => {
+//   const submit = async (e) => {
    
-    e.preventDefault();
+//     e.preventDefault();
 
-    try {
+//     try {
     
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      const userCollectionRef= collection(db,"Users")
+//       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+//       const user = userCredential.user;
+//       const userCollectionRef= collection(db,"Users")
      
   
+//       await addDoc(userCollectionRef, {
+//         uid: user.uid,
+//         name: name, 
+//         email: email,
+//         createdAt: serverTimestamp(), 
+//         updatedAt: serverTimestamp()   
+//       })
+
+//       alert("Account Created and User Data Stored");
+//        window.location.pathname = "/"
+      
+//     } catch (error) {
+//       alert(error.message);
+//     }
+//   };
+//   return (
+//     <div className='main_container'>
+//       <div className='header'>
+//         <h1>Register</h1>
+
+//         <div className='box'>
+//           <input type='text' value={name} placeholder='UserName' onChange={(e) => setName(e.target.value)} />
+//         </div>
+//         <div className='box'>
+//           <input type='email' value={email}
+//             onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
+
+//         </div>
+//         <div className='box'>
+
+//           <input type='password' value={password}
+//             onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
+//         </div>
+//         <p>Alerady Have an account <Link to="/login">Login now</Link></p>
+//         <button onClick={submit}>Sign Up</button>
+
+//       </div>
+//     </div>
+//   )
+// }
+
+// export default Register;
+
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from '../firebase-config';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { Box, Button, TextField, Typography } from '@mui/material';
+
+function Register() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const submit = async (e) => {
+    e.preventDefault();
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      const userCollectionRef = collection(db, 'Users');
+
       await addDoc(userCollectionRef, {
         uid: user.uid,
-        name: name, 
+        name: name,
         email: email,
-        createdAt: serverTimestamp(), 
-        updatedAt: serverTimestamp()   
-      })
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
 
-      alert("Account Created and User Data Stored");
-       window.location.pathname = "/"
-      
+      alert('Account Created and User Data Stored');
+      window.location.pathname = '/';
     } catch (error) {
       alert(error.message);
     }
   };
+
   return (
-    <div className='main_container'>
-      <div className='header'>
-        <h1>Register</h1>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px', margin: '25px' }}>
+      <Typography variant="h4" gutterBottom>
+        Register
+      </Typography>
 
-        <div className='box'>
-          <input type='text' value={name} placeholder='UserName' onChange={(e) => setName(e.target.value)} />
-        </div>
-        <div className='box'>
-          <input type='email' value={email}
-            onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: '400px',
+          padding: '20px',
+          border: '1px solid #ccc',  // Same border as in Login form
+          borderRadius: '8px',        // Same rounded corners
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', // Optional box shadow
+        }}
+      >
+        <TextField
+          label="UserName"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
 
-        </div>
-        <div className='box'>
+        <TextField
+          label="Email"
+          type="email"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-          <input type='password' value={password}
-            onChange={(e) => setPassword(e.target.value)} placeholder='Password' />
-        </div>
-        <p>Alerady Have an account <Link to="/login">Login now</Link></p>
-        <button onClick={submit}>Sign Up</button>
+        <TextField
+          label="Password"
+          type="password"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
-      </div>
-    </div>
-  )
+        <Typography variant="body2" sx={{ marginTop: '10px' }}>
+          Already have an account? <Link to="/login" style={{ color: 'blue', fontSize: '15px', textDecoration: 'underline' }}>Login now</Link>
+        </Typography>
+
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ marginTop: '20px' }}
+          onClick={submit}
+        >
+          Sign Up
+        </Button>
+      </Box>
+    </Box>
+  );
 }
 
 export default Register;
-
