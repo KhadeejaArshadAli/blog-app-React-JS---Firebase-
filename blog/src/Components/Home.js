@@ -57,17 +57,7 @@ function Home() {
         ))}
       </Grid>
 
-      {/*       
-      {postList.map((post) => (
-        <Box key={post.id} sx={{ marginBottom: '20px', border: '1px solid #ccc', padding: '10px', borderRadius: '8px' }}>
-          <Typography variant="h5">{post.title}</Typography>
-          <Button variant="contained" color="primary" onClick={() => openModal(post)} sx={{ marginTop: '10px' }}>
-            View Post
-          </Button>
-        </Box>
-      ))} */}
-
-      {/* Material UI Dialog for Post Details */}
+    
       <Dialog open={isModalOpen} onClose={closeModal} fullWidth maxWidth="sm">
         {selectedPost && (
           <>

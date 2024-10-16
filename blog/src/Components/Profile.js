@@ -159,14 +159,14 @@ function Profile() {
         )
       )}
 
-      {/* Create Post Button */}
+     
       <Box sx={{ marginTop: '20px' }}>
         <Button variant="contained" color="primary" onClick={handleButtonClick}>
           Create Post
         </Button>
       </Box>
 
-      {/* Material UI Dialog for Viewing Post Details */}
+      
       <Dialog open={isModalOpen} onClose={closeModal} fullWidth maxWidth="sm">
         {selectedPost && (
           <>
