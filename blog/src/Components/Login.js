@@ -1,6 +1,5 @@
 
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth, db, provider } from '../firebase-config';
@@ -60,8 +59,6 @@ function Login({ setIsAuth }) {
         setLoading(false);
       });
   };
-
-
 
 
   return (
@@ -134,3 +131,4 @@ function Login({ setIsAuth }) {
 }
 
 export default Login;
+

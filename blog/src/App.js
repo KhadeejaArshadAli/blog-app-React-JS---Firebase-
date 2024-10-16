@@ -1,78 +1,30 @@
-// import './App.css';
-// import React, { useState } from 'react';
-// import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-// import Home from './Components/Home';
-// import CreatePost from './Components/CreatePost';
-// import Login from './Components/Login';
-// import Register from './Components/Register';
-// import { signOut } from 'firebase/auth';
-// import { auth } from './firebase-config';
-// import Profile from './Components/Profile';
-// import Navbar from './Components/Navbar';
-
-
-// function App() {
-//   const [isAuth, setIsAuth] = useState(false);
-
-
-//   const signUserOut = () => {
-//     signOut(auth).then(() => {
-//       localStorage.clear();
-//       setIsAuth(false);
-//       window.location.pathname = "/login";
-
-
-//     });
-
-//   };
-//   return (
-//     <Router>
-//       <nav>
-//         <Link to="/"> Home </Link>
-      
-//         {!isAuth ? (
-//           <>
-//            <Link to="/login"> Login </Link> 
-//            <Link to="/register"> SignUp</Link>
-//           </>
-         
-//         ) : (
-//           <>
-          
-//             <Link to="/profile"> My Blogs </Link>
-//             <button className="Log-out"onClick={signUserOut}> SignOut</button>
-//           </>
-//         )}
-
-
-//       </nav>
-//       <Routes>
-//         <Route path='/' element={<Home />} />
-//         <Route path='/createpost' element={<CreatePost isAuth={isAuth} />} />
-//         <Route path='/login' element={<Login setIsAuth={setIsAuth} />} />
-//         <Route path='/register' element={<Register />} />
-//         <Route path='/profile' element={<Profile />} />
-//         <Route path='/navbar' element={<Navbar />} />
-//       </Routes>
-//     </Router>
-//   );
-// }
-
-// export default App;
 import './App.css';
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Home from './Components/Home';
 import CreatePost from './Components/CreatePost';
 import Login from './Components/Login';
 import Register from './Components/Register';
-import { signOut } from 'firebase/auth';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase-config';
 import Profile from './Components/Profile';
 import { AppBar, Toolbar, Button, Typography, Box } from '@mui/material';
 
 function App() {
   const [isAuth, setIsAuth] = useState(false);
+
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuth(true);
+      } else {
+        setIsAuth(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const signUserOut = () => {
     signOut(auth).then(() => {
@@ -117,9 +69,9 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/createpost' element={<CreatePost isAuth={isAuth} />} />
-        <Route path='/login' element={<Login setIsAuth={setIsAuth} />} />
+        <Route path='/login' element={isAuth ? <Navigate to="/" /> : <Login setIsAuth={setIsAuth} />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile' element={isAuth ? <Profile /> : <Navigate to="/login" />} />
       </Routes>
     </Router>
   );
