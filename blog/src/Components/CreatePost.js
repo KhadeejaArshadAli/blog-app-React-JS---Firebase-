@@ -1,73 +1,3 @@
-// import React, { useEffect, useState } from 'react';
-// import { addDoc, collection, serverTimestamp, } from 'firebase/firestore';
-// import { db, auth } from '../firebase-config';
-// import { v4 as uuidv4 } from 'uuid';
-// import { useNavigate } from 'react-router-dom';
-
-
-
-// function CreatePost({ isAuth }) {
-
-//   let navigate = useNavigate();
-//   const [title, setTitle] = useState("");
-//   const [posttext, setPostText] = useState("");
-
-//   const postCollectionRef = collection(db, "Posts")
-//   const createPost = async () => {
-//     const postId = uuidv4();
-//     await addDoc(postCollectionRef, {
-//       postId,
-//       title,
-//       posttext,
-//       author: {
-//         name: localStorage.getItem("username") || auth.currentUser.displayName,
-//         id: auth.currentUser.uid
-//       },
-//       createdAt: serverTimestamp(),
-//       updatedAt: serverTimestamp()
-//     });
-
-//     navigate("/");
-//   };
-
-
-//   useEffect(() => {
-//     if (!isAuth) {
-//       navigate("/login");
-//     }
-//   })
-
-
-
-
-//   return (
-//     <div className='createPostPage'>
-//       <div className='cpContainer'>
-//         <h1> CREATE A POST</h1>
-//         <div className='inputGp'>
-//           <label>Title:</label>
-//           <input type='text' placeholder='Title...' onChange={(event) => { setTitle(event.target.value); }} />
-//         </div>
-//         <div className='inputGp'>
-//           <label>Post:</label>
-//           <textarea placeholder='Post...'
-//             onChange={(event) => { setPostText(event.target.value); }} />
-
-//         </div>
-//         <button onClick={createPost}>Submit Post</button>
-
-//       </div>
-
-
-//     </div>
-//   )
-// }
-
-
-// export default CreatePost
-
-
-
 import React, { useEffect, useState } from 'react';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../firebase-config';
@@ -83,6 +13,10 @@ function CreatePost({ isAuth }) {
   const postCollectionRef = collection(db, 'Posts');
   
   const createPost = async () => {
+    if(title.trim().length === 0){
+      alert("Can't post without a title ");
+      return;
+    }
     const postId = uuidv4();
     await addDoc(postCollectionRef, {
       postId,
@@ -124,9 +58,9 @@ function CreatePost({ isAuth }) {
           width: '100%',
           maxWidth: '600px',
           padding: '20px',
-          border: '1px solid #ccc',  // Adds a border
-          borderRadius: '8px',        // Rounded corners
-          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', // Optional shadow
+          border: '1px solid #ccc', 
+          borderRadius: '8px',       
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', 
         }}
       >
         <TextField
